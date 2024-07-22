@@ -462,7 +462,7 @@ MonoBehaviour:
   damage: 10
   criDamage: 20
   criPercent: 50
-  gold: 0
+  gold: -1
   damageText: {fileID: 1118266120}
   criDamageText: {fileID: 2046712508}
   criPercentText: {fileID: 1880922242}

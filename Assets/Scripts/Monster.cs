@@ -24,23 +24,13 @@ public class Monster : MonoBehaviour
         nameText.text = monsterName;
     }
 
-    public void OnHit(float damage, float criDamage, float criPercent, ref int gold)
+    public void OnHit(float damage)
     {
-        if (Random.Range(1, 101) <= criPercent)
-        {
-            curHp -= criDamage;
-            Debug.Log("Critical!");
-        }
-        else
-        {
-            curHp -= damage;
-        }
-
+        curHp -= damage;
         if (curHp <= 0)
         {
             curHp = 0;
             isDead = true;
-            gold++;
         }
         animator.SetTrigger("Hit");
         Debug.Log("Slime Hit!, Current Hp : " + curHp);

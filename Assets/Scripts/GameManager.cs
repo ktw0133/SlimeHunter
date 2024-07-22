@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Rendering;
+using System.Threading;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float damage;
     [SerializeField] private float criDamage;
     [SerializeField] private float criPercent;
-    [SerializeField] private int gold;
+    [SerializeField] private int gold = -1;       // 처음 몬스터 등장 순간에도 GetGold가 실행됨
 
     [SerializeField] private Text damageText;
     [SerializeField] private Text criDamageText;
@@ -31,19 +32,33 @@ public class GameManager : MonoBehaviour
         if (curSlime == null)
         {
             SpawnSlime();
+            GetGold();
         }
 
         damageText.text = "Damage : " + damage.ToString();
         criDamageText.text = "Critical Damage : " + criDamage.ToString();
         criPercentText.text = "Critical Percentage : " + criPercent.ToString() + "%";
-        goldText.text = "Gold : " + gold.ToString();
     }
 
     public void HitSlime()
     {
         if (curSlime != null)
         {
-            curSlime.OnHit(damage, criDamage, criPercent, ref gold);
+            if (Random.Range(1, 101) <= criPercent)
+            {
+                curSlime.OnHit(criDamage);
+                Debug.Log("Critical!");
+            }
+            else
+            {
+                curSlime.OnHit(damage);
+            }
         }
+    }
+
+    private void GetGold()
+    {
+        gold++;
+        goldText.text = "Gold : " + gold.ToString();
     }
 }
